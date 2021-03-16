@@ -5,36 +5,51 @@ import java.util.List;
 
 public class AlienDictionary {
 	
-	public List<Word> dizionario = new LinkedList<Word>();
+	public List<WordEnhanced> dizionario = new LinkedList<WordEnhanced>();
 	
 	public void addWord(String alienWord, String translation) {
 		
 		boolean presente = false;
-		Word word = new Word(alienWord.toLowerCase(), translation.toLowerCase());
 		
-		if(!dizionario.isEmpty()) {
-			for(Word parole : dizionario) {
-				if(word.equals(parole)) {
-					dizionario.remove(parole);
-				}
+		for(WordEnhanced word : dizionario) {
+			if(word.getAlienWord().equals(alienWord)) {
+				presente = true;
+				word.getTranslations().add(translation);
 			}
 		}
 		
-		dizionario.add(word);
+		if(!presente) {
+			LinkedList<String> nuovo = new LinkedList<String>();
+			nuovo.add(translation);
+			WordEnhanced word = new WordEnhanced(alienWord, nuovo);
+			dizionario.add(word);
+		} else {
+			
+		}
 
 	}
 	
-	public String translateWord(String alienWord) {
+	public LinkedList<String> translateWord(String alienWord) {
 		
-		String translation = null;
+		LinkedList<String> translation = new LinkedList<String>();
 		
-		for(Word word : dizionario) {
+		for(WordEnhanced word : dizionario) {
 			if(word.getAlienWord().equals(alienWord)) {
-				translation = word.getTranslation();
+				translation = word.getTranslations();
 			}
 		}
 		
 		return translation;
 	}
+
+	public List<WordEnhanced> getDizionario() {
+		return dizionario;
+	}
+
+	public void setDizionario(List<WordEnhanced> dizionario) {
+		this.dizionario = dizionario;
+	}
+	
+	
 
 }

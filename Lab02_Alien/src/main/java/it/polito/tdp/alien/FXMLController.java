@@ -58,19 +58,26 @@ public class FXMLController {
 			}
 			
 			if(ok) {
-				dictionary.addWord(alienWord, translation);
+				dictionary.addWord(alienWord.toLowerCase(), translation.toLowerCase());
 			} else {
 				txtRisultato.setText("Errore: le parole devono contenere solo caratteri");
 			}
 			txtUtente.setText("");
     	} else {
-    		String traduzione = dictionary.translateWord(txtUtente.getText().toLowerCase());
-    		if(traduzione == null) {
-    			txtRisultato.setText("La parola aliena non è presente in dizionario.");
-    		} else {
-    			txtRisultato.setText(traduzione);
+    		boolean trovato = false;
+    		String alienWord = txtUtente.getText().toLowerCase();
+    		
+    		for(WordEnhanced wordEnhanced : dictionary.dizionario) {
+    			if(wordEnhanced.getAlienWord().equals(alienWord)) {
+    				txtRisultato.setText(wordEnhanced.toString());
+    				trovato = true;
+    			}
     		}
-    		txtUtente.setText("");
+    		
+    		if(!trovato) {
+    			txtRisultato.setText("parola non presente in dizionario");
+    		}
+    		
     	}
     }
 
